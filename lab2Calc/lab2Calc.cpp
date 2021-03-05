@@ -61,7 +61,7 @@ BYTE* __atoiHEX(char* str) {
 		}
 		res[i] = str[t] - 48;
 		if (res[i] < 0) {
-			printf("__atoiHEX::Invalid symbol:%c", str[t]);
+			printf("__atoiHEX::Incorrect symbol:%c", str[t]);
 			free(res);
 			res = NULL;
 			break;
@@ -69,7 +69,7 @@ BYTE* __atoiHEX(char* str) {
 		if (res[i] > 9) {
 			res[i] -= 7;
 			if (res[i] < 0) {
-				printf("__atoiHEX::Invalid symbol:%c", str[t]);
+				printf("__atoiHEX::Incorrect symbol:%c", str[t]);
 				free(res);
 				res = NULL;
 				break;
@@ -78,14 +78,14 @@ BYTE* __atoiHEX(char* str) {
 		if (res[i] > 15) {
 			res[i] -= 32;
 			if (res[i] < 0) {
-				printf("__atoiHEX::Invalid symbol:%c", str[t]);
+				printf("__atoiHEX::Incorrect symbol:%c", str[t]);
 				free(res);
 				res = NULL;
 				break;
 			}
 		}
 		if (res[i] > 15) {
-			printf("__atoiHEX::Invalid symbol:%c", str[t]);
+			printf("__atoiHEX::Incorrect symbol:%c", str[t]);
 			free(res);
 			res = NULL;
 			break;
@@ -649,16 +649,28 @@ int main(int argc, char** argv)
 		printf("num1 (+,-,*) num2");
 		return 0;
 	}
-	if (argc != 4) {
-		printf("invalid args count");
+	if (argc < 4) {
+		printf("Not enought arguments for calculating");
 		return 0;
+	}
+	if (argc > 4) {
+		printf("The number of arguments exceeds the necessary value(3)\n");
+		printf("Trying to work with first three arguments\n");
 	}
 	BYTE* a = __atoiHEX(argv[1]);
 	BYTE* b = __atoiHEX(argv[3]);
+	if (a == NULL) {
+		printf("1st argument is not a number");
+		return 0;
+	}
+	if (b == NULL) {
+		printf("3l argument is not a number");
+		return 0;
+	}
 	switch (argv[2][0])
 	{
 	default:
-		printf("unknow action, return 1st srg\n");
+		printf("unknow action, return 1st argument\n");
 		break;
 	case '+':
 		add(a, b);
